@@ -194,6 +194,145 @@
         </footer>
     </div>
 
+    
+    <script>
+        // Translation dictionary using arrays
+        const translations = {
+            // Common phrases in English
+            "en": [
+                "hello", "goodbye", "thank you", "please", "yes", "no", 
+                "good morning", "good afternoon", "good evening", "how are you?",
+                "my name is", "I don't understand", "help me", "excuse me",
+                "where is", "when", "how much", "what time", "today", "tomorrow"
+            ],
+            // Spanish translations
+            "es": [
+                "hola", "adiós", "gracias", "por favor", "sí", "no", 
+                "buenos días", "buenas tardes", "buenas noches", "¿cómo estás?",
+                "me llamo", "no entiendo", "ayúdame", "disculpe",
+                "dónde está", "cuándo", "cuánto", "qué hora", "hoy", "mañana"
+            ],
+            // French translations
+            "fr": [
+                "bonjour", "au revoir", "merci", "s'il vous plaît", "oui", "non", 
+                "bonjour (matin)", "bon après-midi", "bonsoir", "comment allez-vous?",
+                "je m'appelle", "je ne comprends pas", "aidez-moi", "excusez-moi",
+                "où est", "quand", "combien", "quelle heure", "aujourd'hui", "demain"
+            ],
+            // German translations
+            "de": [
+                "hallo", "auf wiedersehen", "danke", "bitte", "ja", "nein", 
+                "guten morgen", "guten tag", "guten abend", "wie geht es dir?",
+                "ich heiße", "ich verstehe nicht", "hilf mir", "entschuldigung",
+                "wo ist", "wann", "wie viel", "wie spät", "heute", "morgen"
+            ],
+            // Japanese translations
+            "ja": [
+                "こんにちは", "さようなら", "ありがとう", "お願いします", "はい", "いいえ", 
+                "おはようございます", "こんにちは", "こんばんは", "お元気ですか？",
+                "私の名前は", "わかりません", "助けてください", "すみません",
+                "どこですか", "いつ", "いくら", "何時", "今日", "明日"
+            ],
+            // Chinese translations
+            "zh": [
+                "你好", "再见", "谢谢", "请", "是", "不", 
+                "早上好", "下午好", "晚上好", "你好吗？",
+                "我的名字是", "我不明白", "帮助我", "对不起",
+                "在哪里", "什么时候", "多少钱", "几点", "今天", "明天"
+            ]
+        };
+
+        // More complex phrases and their translations
+        const complexPhrases = {
+            "en": {
+                "Can you help me find the nearest restaurant?": {
+                    "es": "¿Puede ayudarme a encontrar el restaurante más cercano?",
+                    "fr": "Pouvez-vous m'aider à trouver le restaurant le plus proche?",
+                    "de": "Können Sie mir helfen, das nächste Restaurant zu finden?",
+                    "ja": "最寄りのレストランを見つけるのを手伝ってもらえますか？",
+                    "zh": "您能帮我找到最近的餐厅吗？"
+                },
+                "I would like to book a hotel room for two nights.": {
+                    "es": "Me gustaría reservar una habitación de hotel por dos noches.",
+                    "fr": "Je voudrais réserver une chambre d'hôtel pour deux nuits.",
+                    "de": "Ich möchte ein Hotelzimmer für zwei Nächte buchen.",
+                    "ja": "ホテルの部屋を2泊予約したいです。",
+                    "zh": "我想预订酒店房间两晚。"
+                },
+                "What time does the museum open tomorrow?": {
+                    "es": "¿A qué hora abre el museo mañana?",
+                    "fr": "À quelle heure le musée ouvre-t-il demain?",
+                    "de": "Wann öffnet das Museum morgen?",
+                    "ja": "明日は美術館は何時に開きますか？",
+                    "zh": "明天博物馆几点开门？"
+                },
+                "How much does this cost?": {
+                    "es": "¿Cuánto cuesta esto?",
+                    "fr": "Combien ça coûte?",
+                    "de": "Wie viel kostet das?",
+                    "ja": "これはいくらですか？",
+                    "zh": "这个多少钱？"
+                },
+                "I am allergic to peanuts.": {
+                    "es": "Soy alérgico a los cacahuetes.",
+                    "fr": "Je suis allergique aux arachides.",
+                    "de": "Ich bin allergisch gegen Erdnüsse.",
+                    "ja": "私はピーナッツアレルギーです。",
+                    "zh": "我对花生过敏。"
+                }
+            }
+        };
+
+        // Function to translate text
+        function translateText() {
+            const sourceLanguage = document.getElementById("source-language").value;
+            const targetLanguage = document.getElementById("target-language").value;
+            let inputText = document.getElementById("input-text").value.trim().toLowerCase();
+            const outputText = document.getElementById("output-text");
+            
+            // Check if it's a complex phrase first
+            if (sourceLanguage === "en" && complexPhrases.en[inputText]) {
+                outputText.textContent = complexPhrases.en[inputText][targetLanguage] || "Translation not available";
+                return;
+            }
+            
+            // Simple word-by-word translation
+            let translation = inputText;
+            
+            // Check for exact phrases in our dictionary
+            for (let i = 0; i < translations[sourceLanguage].length; i++) {
+                const sourcePhrase = translations[sourceLanguage][i];
+                const targetPhrase = translations[targetLanguage][i];
+                
+                // Replace the phrase if found (with word boundaries to avoid partial matches)
+                const regex = new RegExp("\\b" + sourcePhrase + "\\b", "gi");
+                translation = translation.replace(regex, targetPhrase);
+            }
+            
+            // If no translation was made, provide a message
+            if (translation === inputText && inputText.length > 0) {
+                translation += " (Basic translation only. For more accurate translations, please use a professional service. Use words like hello, goodbye, thank you, good morning, how are you? or sentences like what time does meuseum open tomorrow.)";
+            }
+            
+            outputText.textContent = translation;
+        }
+
+        // Event listeners
+        document.getElementById("translate-btn").addEventListener("click", translateText);
+        document.getElementById("input-text").addEventListener("keydown", function(event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                translateText();
+            }
+        });
+
+        // Initialize with default languages
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("source-language").value = "en";
+            document.getElementById("target-language").value = "es";
+        });
+    </script>
+
 
 </body>
 </html>
