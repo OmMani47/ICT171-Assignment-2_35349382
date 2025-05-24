@@ -103,5 +103,62 @@
     </div>
   
     <button onclick="resetGame()">Restart Game</button>
+
+    <script>
+      let currentPlayer = 'X';
+      let gameBoard = ['', '', '', '', '', '', '', '', ''];
+      let isGameOver = false;
+  
+      function makeMove(index) {
+        if (gameBoard[index] === '' && !isGameOver) {
+          gameBoard[index] = currentPlayer;
+          const cell = document.querySelectorAll('.cell')[index];
+          cell.textContent = currentPlayer;
+          cell.classList.add('disabled');
+  
+          if (checkWin()) {
+            document.getElementById('status').textContent = `Player ${currentPlayer} wins!`;
+          isGameOver = true;
+            disableAllCells();
+          } else if (gameBoard.every(cell => cell !== '')) {
+            document.getElementById('status').textContent = "It's a draw!";
+            isGameOver = true;
+          } else {
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            document.getElementById('status').textContent = `Player ${currentPlayer}'s turn`;
+          }
+        }
+      }
+  
+      function checkWin() {
+        const winPatterns = [
+          [0, 1, 2], [3, 4, 5], [6, 7, 8],
+          [0, 3, 6], [1, 4, 7], [2, 5, 8],
+          [0, 4, 8], [2, 4, 6]
+        ];
+  
+        return winPatterns.some(([a, b, c]) => {
+          return gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c];
+        });
+      }
+  
+      function disableAllCells() {
+        document.querySelectorAll('.cell').forEach(cell => {
+          cell.classList.add('disabled');
+        });
+      }
+  
+      function resetGame() {
+        gameBoard = ['', '', '', '', '', '', '', '', ''];
+        isGameOver = false;
+        currentPlayer = 'X';
+        document.getElementById('status').textContent = "Player X's turn";
+        document.querySelectorAll('.cell').forEach(cell => {
+          cell.textContent = '';
+          cell.classList.remove('disabled');
+        });
+      }
+    </script>
+  
 </body>
 </html>
