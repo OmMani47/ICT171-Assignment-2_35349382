@@ -224,14 +224,14 @@
                 "hallo", "auf wiedersehen", "danke", "bitte", "ja", "nein", 
                 "guten morgen", "guten tag", "guten abend", "wie geht es dir?",
                 "ich heiße", "ich verstehe nicht", "hilf mir", "entschuldigung",
-                "wo ist", "wann", "wie viel", "wie spät", "heute", "morgen"
+                "wo ist", "wann", "wie viel ", "wie spät", "heute", "morgen"
             ],
             // Japanese translations
             "ja": [
                 "こんにちは", "さようなら", "ありがとう", "お願いします", "はい", "いいえ", 
                 "おはようございます", "こんにちは", "こんばんは", "お元気ですか？",
                 "私の名前は", "わかりません", "助けてください", "すみません",
-                "どこですか", "いつ", "いくら", "何時", "今日", "明日"
+                "どこですか", "いつ", "いくら", "何時", "今日 ", "明日"
             ],
             // Chinese translations
             "zh": [
@@ -286,7 +286,7 @@
         // Function to translate text
         function translateText() {
             const sourceLanguage = document.getElementById("source-language").value;
-            const targetLanguage = document.getElementById("target-language").value;
+            const targetLanguage = document.getElementById("target-language").value;    
             let inputText = document.getElementById("input-text").value.trim().toLowerCase();
             const outputText = document.getElementById("output-text");
             
@@ -311,7 +311,7 @@
             
             // If no translation was made, provide a message
             if (translation === inputText && inputText.length > 0) {
-                translation += " (Basic translation only. For more accurate translations, please use a professional service. Use words like hello, goodbye, thank you, good morning, how are you? or sentences like what time does meuseum open tomorrow.)";
+                translation += " (Basic translation   only. For more accurate translations, please use a professional service. Use words like hello, goodbye, thank you, good morning, how are you? or sentences like what time does meuseum open tomorrow.)";
             }
             
             outputText.textContent = translation;
