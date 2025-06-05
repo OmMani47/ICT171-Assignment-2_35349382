@@ -1,0 +1,202 @@
+ICT 171 – ASSIGNMENT 2
+LANGUAGE TRANSLATOR
+Om Mani Tamang – 35349382
+IP ADDRESS : 3.228.62.227
+DNS : ommanitamang.com.np
+GITHUB: https://github.com/OmMani47/ICT171-Assignment-2_35349382
+VIDEO EXPLAINER: https://youtu.be/HnX0Qn9U9N8
+•
+Description:
+This documentation provides a detailed guide for hosting a website on an AWS EC2 instance, configuring DNS using Route 53, and implementing SSL certificates on Linux. The setup ensures a secure, scalable, and professionally configured web presence.
+•
+Phase 1: AWS EC2 Setup:
+1.1
+Launch EC2 Instance
+1.
+Navigate to EC2 Console
+o
+Log into AWS Management Console
+o
+Go to EC2 service
+o
+Click "Launch Instance"
+2.
+Configure Instance
+o
+Name: web-server-production
+o
+AMI: Ubuntu 22.04 LTS
+o
+Instance Type: t2.micro (Free Tier)
+o
+Key Pair: Create new or select existing SSH key pair
+o
+Security Group: Create with the following rules:
+▪
+SSH (22) - Your IP only
+▪
+HTTP (80) - 0.0.0.0/0
+▪
+HTTPS (443) - 0.0.0.0/0
+3.
+Storage Configuration
+o
+Root volume: 20 GB GP3 (adjust based on needs)
+4.
+Finalise Setup
+5.
+Setup Budget
+o
+Go to Billing and Cost Management page
+o
+Go to Budgets
+o
+Select to create budget and give it a name
+o
+Select minimum amount of $1
+o
+Give access to sent email if the amount goes over budget
+1.2
+Connect to your instance
+1.
+Open command prompt in your PC
+2.
+Change directory to where your pem key is downloaded.
+3.
+RUN - ssh -i "ommanitamang.pem" ubuntu@ec2-3-228-62-227.compute-1.amazonaws.com
+4.
+Setup Linux for building a website
+o
+sudo apt update
+o
+sudo apt install apache2
+•
+Phase 2: Web Server Setup:
+1.
+Configure and verify installation
+o
+sudo systemctl start httpd
+o
+sudo systemctl enable httpd
+o
+sudo ufw allow 'Apache Full'
+o
+sudo ufw allow OpenSSH
+o
+sudo ufw enable
+o
+sudo systemctl status apache2
+•
+Phase 3: route 53 and DNS:
+3.1
+Domain setup
+o
+Obtain a DNS
+o
+Go to Route 53 Console in the AWS
+o
+Obtain a nameserver at current registrar
+1.2
+Create a hosted zone and configure
+o
+Navigate to Route 53
+o
+Click on Create Hosted Zone
+o
+Enter your domain name
+o
+Select Public Hosted Zone and select create
+o
+Create a record for root domain and enter your EC2 instance public IP
+o
+Create a record for domain name with WWW infront.
+o
+Copy your nameserver and link it with your domain name provider in their website as well
+o
+Wait for 24-48 hours for configuration.
+•
+Phase 4: Create content for the website:
+1.
+Run cd /var/www/html
+2.
+Run ls
+3.
+Remove the original index.html page and create your own default page for your website
+4.
+Run sudo nano index.html
+5.
+Paste the code that you have created for your website.
+6.
+Run CTRL + X and save the changes.
+7.
+Add for files of code using the command “ sudo nano filename.html”
+8.
+Then run sudo systemctl restart apache2 to refresh your apache server to run your new web page.
+
+•
+Phase 5: Obtaining SSL Certification:
+1.
+RUN Sudo apt install snapd
+2.
+RUN sudo apt-get install certbot python3-certbot-apache
+3.
+RUN sudo python3 -m venv /opt/certbot/
+4.
+RUN sudo certbot --apache -
+5.
+Enter DNS
+6.
+Agree to terms of service
+7.
+Choose whether to share email with EFF
+8.
+Select redirect option
+
+•
+Phase 6: Scripting Documentation for Language Translation:
+Overview
+This JavaScript translation script provides a simple translation service that supports multiple languages including English, Spanish, French, German, Japanese, and Chinese. The script uses predefined dictionaries for basic word-to-word translation and includes support for complex phrases commonly used in travel and daily conversations.
+Features
+Multi-language Support: 6 languages (English, Spanish, French, German, Japanese, Chinese)
+Two Translation Types:
+•
+Basic word-by-word translation using indexed arrays
+•
+Complex phrase translation for common travel scenarios
+Interactive UI Support: Handles button clicks and Enter key events
+Fallback Messaging: Provides guidance when translations aren't available
+Real-time Translation: Translation without server requests
+Process Flow:
+•
+Retrieves source and target language values
+•
+Gets and normalizes input text (trim + lowercase)
+•
+Checks for complex phrase matches first
+•
+Performs word-by-word translation using basic dictionary
+•
+Displays results or fallback message
+Usage Examples:
+•
+Basic Translation: "hello goodbye thank you" English to Spanish: "hola adiós gracias"
+•
+Complex Phrase Translation: "What time does the museum open tomorrow?" English to French: "À quelle heure le musée ouvre-t-il demain?"
+•
+Mixed Content: "hello, can you help me find the nearest restaurant?" Result: Translates "hello" + provides complex phrase translation
+Current Limitations
+•
+Limited Vocabulary: Only ~20 basic words and 5 complex phrases per language
+•
+No Grammar Rules: Simple word replacement without grammatical context
+•
+Case Sensitivity: Requires lowercase input for matching
+•
+Exact Matching: Complex phrases must match exactly
+•
+Unidirectional: Complex phrases only work from English to other languages
+•
+No Plurals/Conjugations: No handling of word variations
+Conclusion
+This translation script is a lightweight, client-side solution for basic language translation. Although it has limited in scope compared to full translation services, it is useful in specific use cases requiring offline functionality, fast response times, and predictable translations for regularly used phrases.
+The modular structure makes it easy to extend with additional languages and phrases, making it suitable for travel apps, language learning tools, and basic communication assistance applications.
